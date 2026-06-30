@@ -1,5 +1,5 @@
 export async function loadCatalog() {
-    const res = await fetch("./data/catalog.json");
+    const res = await fetch("./daata/catalog.json");
     return await res.json();
 }
 
