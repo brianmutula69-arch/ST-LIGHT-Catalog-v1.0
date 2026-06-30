@@ -1,0 +1,93 @@
+{
+  "shop": {
+    "name": "ST LIGHT",
+    "tagline": "Electrical • Solar • Lighting Solutions"
+  },
+
+  "categories": [
+    {
+      "id": "solar",
+      "name": "Solar",
+      "cover": "images/solar/cover.jpg",
+      "products": [
+        {
+          "id": "solar-panel-200w",
+          "name": "200W Solar Panel",
+          "image": "images/solar/panel1.jpg"
+        },
+        {
+          "id": "snadi-inverter",
+          "name": "SNADI Hybrid Inverter",
+          "image": "images/solar/inverter1.jpg"
+        },
+        {
+          "id": "solar-charge-controller",
+          "name": "Solar Charge Controller",
+          "image": "images/solar/controller1.jpg"
+        }
+      ]
+    },
+
+    {
+      "id": "lighting",
+      "name": "Lighting",
+      "cover": "images/lighting/cover.jpg",
+      "products": [
+        {
+          "id": "led-bulb",
+          "name": "LED Bulb",
+          "image": "images/lighting/bulb1.jpg"
+        },
+        {
+          "id": "luxury-chandelier",
+          "name": "Luxury Chandelier",
+          "image": "images/lighting/chandelier1.jpg"
+        },
+        {
+          "id": "flood-light",
+          "name": "LED Flood Light",
+          "image": "images/lighting/flood1.jpg"
+        }
+      ]
+    },
+
+    {
+      "id": "batteries",
+      "name": "Batteries",
+      "cover": "images/batteries/cover.jpg",
+      "products": [
+        {
+          "id": "gel-battery",
+          "name": "200Ah GEL Battery",
+          "image": "images/batteries/battery1.jpg"
+        }
+      ]
+    },
+
+    {
+      "id": "inverters",
+      "name": "Inverters",
+      "cover": "images/inverters/cover.jpg",
+      "products": [
+        {
+          "id": "must-inverter",
+          "name": "MUST Power Inverter",
+          "image": "images/inverters/inverter1.jpg"
+        }
+      ]
+    },
+
+    {
+      "id": "accessories",
+      "name": "Accessories",
+      "cover": "images/accessories/cover.jpg",
+      "products": [
+        {
+          "id": "mc4-connector",
+          "name": "MC4 Connector",
+          "image": "images/accessories/mc4.jpg"
+        }
+      ]
+    }
+  ]
+}
