@@ -1,132 +1,90 @@
-import {
-    loadCatalog,
-    renderCategories,
-    renderProducts,
-    getAllProducts,
-    filterProductsByCategory,
-    searchProducts
-} from "./catalog.js";
+import * as Catalog from "./catalog.js";
+import * as Viewer from "./viewer.js";
+import * as Storage from "./storage.js";
+import * as Share from "./share.js";
 
-import {
-    saveFavorite,
-    getFavorites
-} from "./storage.js";
+let data;
+let products=[];
 
-import {
-    openViewer,
-    closeViewer
-} from "./viewer.js";
+document.addEventListener("DOMContentLoaded",init);
 
-let catalog = null;
-let currentProducts = [];
+async function init(){
 
-/* -----------------------------
-   Initialize App
------------------------------- */
+    data=await Catalog.loadCatalog();
 
-document.addEventListener("DOMContentLoaded", async () => {
+    Catalog.renderCategories(data.categories);
 
-    catalog = await loadCatalog();
+    products=Catalog.getAllProducts(data);
 
-    renderCategories(catalog.categories);
+    Catalog.renderProducts(products);
 
-    currentProducts = getAllProducts(catalog);
+    setupSearch();
 
-    renderProducts(currentProducts);
+    loadFromURL();
 
-    setupEvents();
+}
 
-});
+function setupSearch(){
 
-/* -----------------------------
-   Events
------------------------------- */
+    searchInput.addEventListener("input",e=>{
 
-function setupEvents(){
+        Catalog.renderProducts(
 
-    const searchInput = document.getElementById("searchInput");
+            Catalog.searchProducts(data,e.target.value)
 
-    searchInput.addEventListener("input", e=>{
-
-        const value = e.target.value.trim();
-
-        const results = searchProducts(catalog,value);
-
-        renderProducts(results);
+        );
 
     });
 
-    document.getElementById("closeViewer")
-        .addEventListener("click",closeViewer);
-
 }
 
-/* -----------------------------
-   Category Click
------------------------------- */
+window.selectCategory=id=>{
 
-window.selectCategory = function(id){
+    Catalog.renderProducts(
 
-    currentProducts = filterProductsByCategory(catalog,id);
+        Catalog.filterProductsByCategory(data,id)
 
-    renderProducts(currentProducts);
+    );
 
-}
+};
 
-/* -----------------------------
-   Product Click
------------------------------- */
+window.openProduct=id=>{
 
-window.openProduct = function(id){
+    const p=products.find(x=>x.id===id);
 
-    const product = currentProducts.find(p=>p.id===id);
+    Viewer.openViewer(p);
 
-    if(!product) return;
+};
 
-    openViewer(product);
+window.favoriteProduct=id=>{
 
-}
+    Storage.saveFavorite(id);
 
-/* -----------------------------
-   Favorite
------------------------------- */
+};
 
-window.favoriteProduct = function(id){
+window.shareProduct=id=>{
 
-    saveFavorite(id);
+    const p=products.find(x=>x.id===id);
 
-    alert("Saved to Favorites ❤️");
+    Share.shareLink(p);
 
-}
+};
 
-/* -----------------------------
-   Share
------------------------------- */
+function loadFromURL(){
 
-window.shareProduct = async function(id){
+    const q=new URLSearchParams(location.search);
 
-    const url =
-        window.location.origin+
-        window.location.pathname+
-        "?product="+id;
+    if(q.has("category")){
 
-    if(navigator.share){
+        selectCategory(q.get("category"));
 
-        await navigator.share({
+    }
 
-            title:"ST LIGHT",
+    if(q.has("product")){
 
-            text:"Check this product",
+        const p=products.find(x=>x.id===q.get("product"));
 
-            url
-
-        });
-
-    }else{
-
-        await navigator.clipboard.writeText(url);
-
-        alert("Product link copied.");
+        if(p) Viewer.openViewer(p);
 
     }
 
